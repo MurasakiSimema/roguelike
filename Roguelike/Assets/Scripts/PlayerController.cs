@@ -11,10 +11,14 @@ public class PlayerController : MonoBehaviour
 
     public Transform weaponArm;
 
+    private Camera mainCamera;
+
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -28,7 +32,7 @@ public class PlayerController : MonoBehaviour
         RB2d.velocity = movementInput * movementSpeed;
 
         Vector3 mousePosition = Input.mousePosition;
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
+        Vector3 screenPoint = mainCamera.WorldToScreenPoint(transform.localPosition);
 
         if (mousePosition.x < screenPoint.x)
         {
@@ -44,5 +48,10 @@ public class PlayerController : MonoBehaviour
         Vector2 offset = new Vector2(mousePosition.x - screenPoint.x, mousePosition.y - screenPoint.y);
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         weaponArm.rotation = Quaternion.Euler(0, 0, angle);
+
+        if (movementInput != Vector2.zero)
+            animator.SetBool("isMoving", true);
+        else
+            animator.SetBool("isMoving", false);
     }
 }
