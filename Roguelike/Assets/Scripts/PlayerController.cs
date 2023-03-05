@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
 
     public Rigidbody2D RB2d;
-
     public Transform weaponArm;
-
     private Camera mainCamera;
-
     public Animator animator;
+
+    public GameObject bullet;
+    public Transform fireDirection;
+    public float fireRate = 0.8f;
+    private float shotCounter = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         movementInput.x = Input.GetAxisRaw("Horizontal");
         movementInput.y = Input.GetAxisRaw("Vertical");
-
-        //transform.position += new Vector3(movementInput.x * Time.deltaTime * movementSpeed, movementInput.y * Time.deltaTime * movementSpeed, 0f);
+        movementInput.Normalize();
 
         RB2d.velocity = movementInput * movementSpeed;
 
@@ -48,6 +49,17 @@ public class PlayerController : MonoBehaviour
         Vector2 offset = new Vector2(mousePosition.x - screenPoint.x, mousePosition.y - screenPoint.y);
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         weaponArm.rotation = Quaternion.Euler(0, 0, angle);
+
+        shotCounter -= Time.deltaTime;
+
+        if (Input.GetMouseButton(0))
+        {
+            if(shotCounter <= 0)
+            {
+                Instantiate(bullet, fireDirection.position, fireDirection.rotation);
+                shotCounter = fireRate;
+            }
+        }
 
         if (movementInput != Vector2.zero)
             animator.SetBool("isMoving", true);
