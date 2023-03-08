@@ -5,7 +5,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 3;
+    public float dashSpeed = 12;
+    public float dashLenght = 0.15f;
+    public float dashCooldown = 3;
+    private float activeMovementSpeed;
+    private float dashCooler = 0;
+    private float dashCounter = 0;
     private Vector2 movementInput;
+    public Transform dashBar;
+    private float originDashBarX;
+    private float originDashBarY;
 
     public Rigidbody2D RB2d;
     public Transform weaponArm;
@@ -21,6 +30,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+        activeMovementSpeed = movementSpeed;
+        originDashBarX = dashBar.localScale.x;
+        originDashBarY = dashBar.localScale.y;
     }
 
     // Update is called once per frame
@@ -30,7 +42,7 @@ public class PlayerController : MonoBehaviour
         movementInput.y = Input.GetAxisRaw("Vertical");
         movementInput.Normalize();
 
-        RB2d.velocity = movementInput * movementSpeed;
+        RB2d.velocity = movementInput * activeMovementSpeed;
 
         Vector3 mousePosition = Input.mousePosition;
         Vector3 screenPoint = mainCamera.WorldToScreenPoint(transform.localPosition);
@@ -65,5 +77,28 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isMoving", true);
         else
             animator.SetBool("isMoving", false);
+
+        if (Input.GetButtonDown("Dash"))
+        {
+            if(dashCooler <= 0 && dashCounter <= 0)
+            {
+                activeMovementSpeed = dashSpeed;
+                dashCounter = dashLenght;
+            }
+        }
+        if(dashCounter > 0)
+        {
+            dashCounter -= Time.deltaTime;
+            if(dashCounter <= 0)
+            {
+                activeMovementSpeed = movementSpeed;
+                dashCooler = dashCooldown;
+            }
+        }
+        if (dashCooler > 0)
+        {
+            dashCooler -= Time.deltaTime;
+            dashBar.localScale = new Vector3((1f - (dashCooler / dashCooldown)) * originDashBarX, originDashBarY);
+        }
     }
 }
