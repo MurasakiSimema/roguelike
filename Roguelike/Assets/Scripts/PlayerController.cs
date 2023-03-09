@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 3;
-    public float dashSpeed = 12;
+    public float dashSpeed = 15;
     public float dashLenght = 0.15f;
-    public float dashCooldown = 3;
+    public float dashCooldown = 10;
     private float activeMovementSpeed;
     private float dashCooler = 0;
     private float dashCounter = 0;
     private Vector2 movementInput;
     public Transform dashBar;
+    public GameObject dashBarText;
     private float originDashBarX;
     private float originDashBarY;
 
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
             {
                 activeMovementSpeed = dashSpeed;
                 dashCounter = dashLenght;
+                dashBarText.SetActive(false);
             }
         }
         if(dashCounter > 0)
@@ -95,10 +97,17 @@ public class PlayerController : MonoBehaviour
                 dashCooler = dashCooldown;
             }
         }
+
         if (dashCooler > 0)
         {
             dashCooler -= Time.deltaTime;
             dashBar.localScale = new Vector3((1f - (dashCooler / dashCooldown)) * originDashBarX, originDashBarY);
+        }
+        
+        if(dashCounter <= 0 && dashCooler <= 0 && !dashBarText.activeInHierarchy)
+        {
+            Debug.Log(dashCooler);
+            dashBarText.SetActive(true);
         }
     }
 }
