@@ -9,6 +9,7 @@ public class PlayerBullet : MonoBehaviour
     public Rigidbody2D rigidbody2d;
 
     public GameObject impactEffect;
+
     // Start is called before the first frame update
     void Start()
     {

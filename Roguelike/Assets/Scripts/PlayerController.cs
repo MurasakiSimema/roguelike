@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     public float movementSpeed = 3;
     public float dashSpeed = 15;
     public float dashLenght = 0.15f;
@@ -26,6 +28,11 @@ public class PlayerController : MonoBehaviour
     public Transform fireDirection;
     public float fireRate = 0.8f;
     private float shotCounter = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -52,11 +59,15 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
             weaponArm.localScale = new Vector3(-1f, -1f, 1f);
+            if (Mathf.Abs(dashBar.localScale.x) == originDashBarX)
+                dashBar.localScale = new Vector3(-originDashBarX, originDashBarY);
         }
         else
         {
             transform.localScale = Vector3.one;
             weaponArm.localScale = Vector3.one;
+            if (Mathf.Abs(dashBar.localScale.x) == originDashBarX)
+                dashBar.localScale = new Vector3(originDashBarX, originDashBarY);
         }
 
         Vector2 offset = new Vector2(mousePosition.x - screenPoint.x, mousePosition.y - screenPoint.y);
