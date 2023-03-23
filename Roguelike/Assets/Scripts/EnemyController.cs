@@ -13,15 +13,25 @@ public class EnemyController : MonoBehaviour
 
     public Animator animator;
 
+    public int maxHP = 150;
+    private int currentHP;
+    private bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
         originX = transform.localScale.x;
+        currentHP = maxHP;
+        animator.SetBool("isMoving", false);
+        animator.SetBool("isDead", false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+            return;
+
         if(Vector3.Distance(transform.position, PlayerController.instance.transform.position) < rangeOfVision)
         {
             movementDirection = PlayerController.instance.transform.position - transform.position;
@@ -46,6 +56,19 @@ public class EnemyController : MonoBehaviour
         else if (movementDirection.x < 0)
         {
             transform.localScale = new Vector3(originX, transform.localScale.y, transform.localScale.z);
+        }
+    }
+
+    public void DamageEnemy(int dmg)
+    {
+        currentHP -= dmg;
+
+        if(currentHP <= 0)
+        {
+            isDead = true;
+            animator.SetBool("isDead", true);
+
+            rigidbody2d.velocity = Vector2.zero;
         }
     }
 }

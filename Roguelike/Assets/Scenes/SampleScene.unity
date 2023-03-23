@@ -382,9 +382,10 @@ GameObject:
   - component: {fileID: 719566668}
   - component: {fileID: 719566665}
   - component: {fileID: 719566667}
+  - component: {fileID: 719566669}
   m_Layer: 0
   m_Name: Enemy - Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -466,7 +467,27 @@ MonoBehaviour:
   rigidbody2d: {fileID: 719566667}
   movementSpeed: 2
   rangeOfVision: 8
-  animator: {fileID: 1496298098}
+  animator: {fileID: 719566669}
+  maxHP: 150
+--- !u!95 &719566669
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719566664}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ce160ba4eb2aae49a18548a68b183fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &845534295
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +729,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1496298100}
   - component: {fileID: 1496298099}
-  - component: {fileID: 1496298098}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -716,25 +736,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &1496298098
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496298097}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7ce160ba4eb2aae49a18548a68b183fe, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1496298099
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -775,7 +776,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4141612904334516676, guid: 283420842fff11c4fb5a7ffc622b8201, type: 3}
+  m_Sprite: {fileID: -3724514210783730073, guid: 283420842fff11c4fb5a7ffc622b8201, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

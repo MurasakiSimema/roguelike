@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     public float speed = 7f;
+    public int dmg = 50;
 
     public Rigidbody2D rigidbody2d;
 
@@ -13,7 +14,7 @@ public class PlayerBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,6 +29,9 @@ public class PlayerBullet : MonoBehaviour
         {
             Instantiate(impactEffect, transform.position, transform.rotation);
             Destroy(gameObject);
+
+            if(other.CompareTag("Enemy"))
+                other.GetComponent<EnemyController>().DamageEnemy(dmg);
         }
     }
 
