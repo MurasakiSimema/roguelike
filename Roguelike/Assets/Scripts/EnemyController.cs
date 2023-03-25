@@ -16,6 +16,19 @@ public class EnemyController : MonoBehaviour
     public int maxHP = 150;
     private int currentHP;
     private bool isDead = false;
+    public Color dmgColor = new Color(1, 0.2971698f, 0.2971698f);
+    public SpriteRenderer sprite;
+    public float dmgColorDuration = 0.2f;
+    private float dmgColorCooldown;
+    private bool dmgColorActive = false;
+
+    public bool canShoot = false;
+    public GameObject bullet;
+    public Transform fireDirection;
+    public float fireRate = 0.8f;
+    private float shotCounter = 0;
+    private float shootAnimationCounter;
+    public float range = 7;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +42,16 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (dmgColorActive && dmgColorCooldown > 0)
+        {
+            dmgColorCooldown -= Time.deltaTime;
+        }
+        else if (dmgColorActive)
+        {
+            dmgColorActive = false;
+            sprite.color = Color.white;
+        }
+
         if (isDead)
             return;
 
@@ -57,13 +80,35 @@ public class EnemyController : MonoBehaviour
         {
             transform.localScale = new Vector3(originX, transform.localScale.y, transform.localScale.z);
         }
+
+        shotCounter -= Time.deltaTime;
+        shootAnimationCounter -= Time.deltaTime;
+
+        if (shotCounter <= 1f && Vector3.Distance(transform.position, PlayerController.instance.transform.position) < range && !animator.GetBool("isAttacking"))
+        {
+            animator.SetBool("isAttacking", true);
+            shootAnimationCounter = 1f;
+        }
+
+        if (shootAnimationCounter <= 0 && animator.GetBool("isAttacking"))
+        {
+            animator.SetBool("isAttacking", false);
+            shotCounter = fireRate;
+            if (canShoot)
+                Instantiate(bullet, fireDirection.position, fireDirection.rotation);
+            else
+                PlayerHealthController.instance.DamagePlayer();
+        }
     }
 
     public void DamageEnemy(int dmg)
     {
         currentHP -= dmg;
+        dmgColorCooldown = dmgColorDuration;
+        dmgColorActive = true;
+        sprite.color = dmgColor;
 
-        if(currentHP <= 0)
+        if (currentHP <= 0)
         {
             isDead = true;
             animator.SetBool("isDead", true);
