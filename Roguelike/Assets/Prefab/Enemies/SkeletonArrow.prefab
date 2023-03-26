@@ -89,7 +89,7 @@ MonoBehaviour:
   canShoot: 1
   bullet: {fileID: 6923447599353013376, guid: 880c566e36de9a147b3f0a79f04b4edc, type: 3}
   fireDirection: {fileID: 1014447161}
-  fireRate: 0.8
+  fireRate: 0.5
   range: 8
 --- !u!61 &3293670491416597607
 BoxCollider2D:

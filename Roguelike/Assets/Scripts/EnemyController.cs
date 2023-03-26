@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
     public GameObject bullet;
     public Transform fireDirection;
     public float fireRate = 0.8f;
+    private float fireCooldown;
     private float shotCounter = 0;
     private float shootAnimationCounter;
     public float range = 7;
@@ -37,6 +38,7 @@ public class EnemyController : MonoBehaviour
         currentHP = maxHP;
         animator.SetBool("isMoving", false);
         animator.SetBool("isDead", false);
+        fireCooldown = 1f / fireRate;
     }
 
     // Update is called once per frame
@@ -52,7 +54,7 @@ public class EnemyController : MonoBehaviour
             sprite.color = Color.white;
         }
 
-        if (isDead)
+        if (isDead || PlayerController.instance.isDead)
             return;
 
         if(Vector3.Distance(transform.position, PlayerController.instance.transform.position) < rangeOfVision)
@@ -84,16 +86,18 @@ public class EnemyController : MonoBehaviour
         shotCounter -= Time.deltaTime;
         shootAnimationCounter -= Time.deltaTime;
 
-        if (shotCounter <= 1f && Vector3.Distance(transform.position, PlayerController.instance.transform.position) < range && !animator.GetBool("isAttacking"))
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < range && !animator.GetBool("isAttacking"))
         {
             animator.SetBool("isAttacking", true);
-            shootAnimationCounter = 1f;
+            shootAnimationCounter = canShoot ? 1f * fireCooldown : 0.6f * fireCooldown;
+            animator.speed = 1f / fireCooldown;
         }
 
         if (shootAnimationCounter <= 0 && animator.GetBool("isAttacking"))
         {
             animator.SetBool("isAttacking", false);
-            shotCounter = fireRate;
+            shotCounter = fireCooldown;
+            animator.speed = 1;
             if (canShoot)
                 Instantiate(bullet, fireDirection.position, fireDirection.rotation);
             else
@@ -110,6 +114,7 @@ public class EnemyController : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            animator.speed = 1;
             isDead = true;
             animator.SetBool("isDead", true);
 
