@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Terrain
+  - PlayerBullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Enemies
   - Enemy Bullets
   - Terrain
-  - 
+  - Pickups
   - 
   - 
   - 
@@ -42,6 +44,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Terrain
+    uniqueID: 2699196883
+    locked: 0
+  - name: Object
+    uniqueID: 1087601551
     locked: 0
   - name: Player
     uniqueID: 3842693197

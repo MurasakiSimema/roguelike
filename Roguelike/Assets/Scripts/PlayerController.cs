@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public Transform dashBar;
     public GameObject dashBarText;
     public Color dashColor = new Color(0.3f, 0.5f, 0.75f);
+    public bool isDashing = false;
     private float originDashBarX;
     private float originDashBarY;
 
@@ -28,9 +29,12 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public SpriteRenderer sprite;
     public Color dmgColor = new Color(1, 0.3f, 0.3f);
+    public Color healColor = new Color(0.3f, 1, 0.3f);
     public float dmgColorDuration = 1f;
-    private float dmgColorCooldown;
+    public float healColorDuration = 0.5f;
+    private float colorCooldown;
     private bool dmgColorActive = false;
+    private float colorDuration;
 
     public GameObject bullet;
     public Transform fireDirection;
@@ -109,6 +113,7 @@ public class PlayerController : MonoBehaviour
                 dashBarText.SetActive(false);
                 PlayerHealthController.instance.MakeInvincible(dashLenght);
                 sprite.color = dashColor;
+                isDashing = true;
             }
         }
         if(dashCounter > 0)
@@ -123,13 +128,14 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("isDashing", false);
                 animator.speed = 1;
                 sprite.color = Color.white;
+                isDashing = false;
             }
         }
 
         if (dashCooler > 0)
         {
             dashCooler -= Time.deltaTime;
-            dashBar.localScale = new Vector3((1f - (dashCooler / dashCooldown)) * originDashBarX, originDashBarY);
+            dashBar.localScale = new Vector3((1f - (Mathf.Max(dashCooler, 0) / dashCooldown)) * originDashBarX, originDashBarY);
         }
         
         if(dashCounter <= 0 && dashCooler <= 0 && !dashBarText.activeInHierarchy)
@@ -137,10 +143,10 @@ public class PlayerController : MonoBehaviour
             dashBarText.SetActive(true);
         }
 
-        if (dmgColorActive && dmgColorCooldown > 0)
+        if (dmgColorActive && colorCooldown > 0)
         {
-            dmgColorCooldown -= Time.deltaTime;
-            sprite.color = new Color(dmgColor.r / (dmgColorCooldown / dmgColorDuration), dmgColor.g / (dmgColorCooldown / dmgColorDuration), dmgColor.b / (dmgColorCooldown / dmgColorDuration));
+            colorCooldown -= Time.deltaTime;
+            sprite.color = new Color(sprite.color.r / (colorCooldown / colorDuration), sprite.color.g / (colorCooldown / colorDuration), sprite.color.b / (colorCooldown / colorDuration));
         }
         else if (dmgColorActive)
         {
@@ -151,11 +157,20 @@ public class PlayerController : MonoBehaviour
 
     public void OnDamagePlayer(int currentHP)
     {
-        dmgColorCooldown = dmgColorDuration;
+        colorCooldown = dmgColorDuration;
+        colorDuration = dmgColorDuration;
         dmgColorActive = true;
         sprite.color = dmgColor;
 
         if (currentHP <= 0)
             isDead = true;
+    }
+
+    public void OnHealPlayer()
+    {
+        colorCooldown = healColorDuration;
+        colorDuration = healColorDuration;
+        dmgColorActive = true;
+        sprite.color = healColor;
     }
 }

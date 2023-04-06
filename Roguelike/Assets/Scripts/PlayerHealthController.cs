@@ -53,6 +53,18 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
+    public void HealPlayer(int heal = 1)
+    {
+        currentHP += heal;
+
+        if (currentHP > maxHP)
+            currentHP = maxHP;
+
+        PlayerController.instance.OnHealPlayer();
+        UIController.instance.HPSlider.value = currentHP;
+        UIController.instance.HPText.text = string.Format("{0} / {1}", currentHP, maxHP);
+    }
+
     public void MakeInvincible(float duration = 1f)
     {
         invincibleCounter = duration;
