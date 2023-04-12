@@ -7,6 +7,10 @@ public class Breakable : MonoBehaviour
     public GameObject[] brokenPieces;
     public int maxPieces = 3;
 
+    public bool shouldDropItem;
+    public GameObject[] dropPool;
+    public float dropChance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +23,21 @@ public class Breakable : MonoBehaviour
         
     }
 
+    private void DropItem()
+    {
+        if (shouldDropItem)
+        {
+            float dropRng = Random.Range(0f, 100f);
+
+            if(dropChance > dropRng)
+            {
+                Instantiate(dropPool[Random.Range(0, dropPool.Length)], transform.position, transform.rotation);
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log('a');
         if ((other.gameObject.CompareTag("Player") && PlayerController.instance.isDashing))
         {
             Destroy(gameObject);
@@ -29,6 +45,8 @@ public class Breakable : MonoBehaviour
             int nPieces = Random.Range(1, maxPieces);
             for(int i = 0; i < nPieces; i++)
                 Instantiate(brokenPieces[Random.Range(0, brokenPieces.Length)], transform.position, transform.rotation);
+
+            DropItem();
         }
     }
 
@@ -41,6 +59,8 @@ public class Breakable : MonoBehaviour
             int nPieces = Random.Range(1, maxPieces);
             for (int i = 0; i < nPieces; i++)
                 Instantiate(brokenPieces[Random.Range(0, brokenPieces.Length)], transform.position, transform.rotation);
+
+            DropItem();
         }
     }
 }

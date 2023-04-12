@@ -105,6 +105,10 @@ MonoBehaviour:
   - {fileID: 7653921420498801789, guid: afa65ad4d9ff4194c9ad5b3f56ad1403, type: 3}
   - {fileID: 823090411017158529, guid: b1653f0e735535444b000f10fea7a460, type: 3}
   maxPieces: 4
+  shouldDropItem: 1
+  dropPool:
+  - {fileID: 6862344617276502793, guid: 84dc9e771692ba34291f69231728b03a, type: 3}
+  dropChance: 50
 --- !u!61 &1370192421487263198
 BoxCollider2D:
   m_ObjectHideFlags: 0
