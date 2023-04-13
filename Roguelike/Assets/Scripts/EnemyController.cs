@@ -98,10 +98,15 @@ public class EnemyController : MonoBehaviour
             animator.SetBool("isAttacking", false);
             shotCounter = fireCooldown;
             animator.speed = 1;
-            if (canShoot)
+            if (canShoot) {
+                AudioManager.instance.PlaySFX(13);
                 Instantiate(bullet, fireDirection.position, fireDirection.rotation);
+            }
             else
+            {
+                AudioManager.instance.PlaySFX(16);
                 PlayerHealthController.instance.DamagePlayer();
+            }
         }
     }
 
@@ -114,11 +119,14 @@ public class EnemyController : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            AudioManager.instance.PlaySFX(2);
             animator.speed = 1;
             isDead = true;
             animator.SetBool("isDead", true);
 
             rigidbody2d.velocity = Vector2.zero;
         }
+        else
+            AudioManager.instance.PlaySFX(3);
     }
 }

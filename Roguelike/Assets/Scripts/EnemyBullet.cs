@@ -36,10 +36,12 @@ public class EnemyBullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+        AudioManager.instance.PlaySFX(5);
     }
 
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
+        AudioManager.instance.PlaySFX(5);
     }
 }

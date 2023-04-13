@@ -6,8 +6,11 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    public AudioSource victory;
+    public AudioSource gameOver;
     public AudioSource[] BGM;
-    private AudioSource currentBGM;
+
+    public AudioSource[] SFX;
 
     private void Awake()
     {
@@ -24,22 +27,39 @@ public class AudioManager : MonoBehaviour
     {
         
     }
-
+    public void PlaySFX(int idx)
+    {
+        if (idx < SFX.Length)
+        {
+            SFX[idx].Stop();
+            SFX[idx].Play();
+        }
+        else
+            Debug.LogError("SFX N° " + idx + " don't exist");
+    }
     public void PlayBGM(int idx)
+    {
+        StopBGM();
+
+        if (idx < BGM.Length)
+            BGM[idx].Play();
+        else
+            Debug.LogError("BGM N° " + idx + " don't exist");
+    }
+    public void StopBGM()
     {
         foreach (var bgm in BGM)
             bgm.Stop();
-
-        BGM[idx].Play();
     }
-
     public void PlayGameOver()
     {
-        PlayBGM(2);
+        StopBGM();
+        gameOver.Play();
     }
 
     public void PlayVictory()
     {
-        PlayBGM(1);
+        StopBGM();
+        victory.Play();
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Terrain
   - PlayerBullet
   - EnemyBullet
+  - Pickup
   layers:
   - Default
   - TransparentFX

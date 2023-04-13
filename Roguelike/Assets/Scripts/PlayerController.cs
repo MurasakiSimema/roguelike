@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         {
             if(shotCounter <= 0)
             {
+                AudioManager.instance.PlaySFX(14);
                 Instantiate(bullet, fireDirection.position, fireDirection.rotation);
                 shotCounter = fireRate;
             }

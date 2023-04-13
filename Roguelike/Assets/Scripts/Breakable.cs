@@ -11,6 +11,8 @@ public class Breakable : MonoBehaviour
     public GameObject[] dropPool;
     public float dropChance;
 
+    public int breakSound = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +42,7 @@ public class Breakable : MonoBehaviour
     {
         if ((other.gameObject.CompareTag("Player") && PlayerController.instance.isDashing))
         {
+            AudioManager.instance.PlaySFX(breakSound);
             Destroy(gameObject);
 
             int nPieces = Random.Range(1, maxPieces);
@@ -54,6 +57,7 @@ public class Breakable : MonoBehaviour
     {
         if (other.CompareTag("PlayerBullet") || other.CompareTag("EnemyBullet"))
         {
+            AudioManager.instance.PlaySFX(breakSound);
             Destroy(gameObject);
 
             int nPieces = Random.Range(1, maxPieces);

@@ -25,13 +25,14 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player") && !other.CompareTag("Terrain"))
+        if (!other.CompareTag("Player") && !other.CompareTag("Terrain") && !other.CompareTag("Pickup"))
         {
             Instantiate(impactEffect, transform.position, transform.rotation);
             Destroy(gameObject);
 
             if(other.CompareTag("Enemy"))
                 other.GetComponent<EnemyController>().DamageEnemy(dmg);
+            AudioManager.instance.PlaySFX(5);
         }
     }
 

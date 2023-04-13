@@ -47,10 +47,14 @@ public class PlayerHealthController : MonoBehaviour
 
         if (currentHP <= 0)
         {
+            AudioManager.instance.PlaySFX(11);
+            AudioManager.instance.PlayGameOver();
             PlayerController.instance.gameObject.SetActive(false);
 
             UIController.instance.deathScreen.SetActive(true);
         }
+        else
+            AudioManager.instance.PlaySFX(12);
     }
 
     public void HealPlayer(int heal = 1)
