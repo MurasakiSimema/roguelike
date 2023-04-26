@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1242467197379057408}
   - component: {fileID: 1242467197379057412}
   - component: {fileID: 1242467197379057411}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerBullet
   m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -452274099
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -3328242913338228825, guid: 56faa61c0738e9b43b0b5aa082c87bb1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

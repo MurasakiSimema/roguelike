@@ -55,9 +55,12 @@ public class EnemyController : MonoBehaviour
         }
 
         if (isDead || PlayerController.instance.isDead)
+        {
+            rigidbody2d.velocity = Vector2.zero;
             return;
+        }
 
-        if(Vector3.Distance(transform.position, PlayerController.instance.transform.position) < rangeOfVision)
+        if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < rangeOfVision)
         {
             movementDirection = PlayerController.instance.transform.position - transform.position;
         }

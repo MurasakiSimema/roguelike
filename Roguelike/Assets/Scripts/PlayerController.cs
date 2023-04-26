@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed = 3;
     public float dashSpeed = 15;
     public float dashLenght = 0.15f;
-    public float dashCooldown = 10;
+    public float dashCooldown = 6;
     private float activeMovementSpeed;
     private float dashCooler = 0;
     private float dashCounter = 0;
