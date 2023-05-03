@@ -27,9 +27,14 @@ public class EnemyController : MonoBehaviour
     public Transform fireDirection;
     public float fireRate = 0.8f;
     private float fireCooldown;
-    private float shotCounter = 0;
+    //private float shotCounter = 0;
     private float shootAnimationCounter;
     public float range = 7;
+
+    public bool IsAlive
+    {
+        get => !isDead;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -86,7 +91,7 @@ public class EnemyController : MonoBehaviour
             transform.localScale = new Vector3(originX, transform.localScale.y, transform.localScale.z);
         }
 
-        shotCounter -= Time.deltaTime;
+        //shotCounter -= Time.deltaTime;
         shootAnimationCounter -= Time.deltaTime;
 
         if (Vector3.Distance(transform.position, PlayerController.instance.transform.position) < range && !animator.GetBool("isAttacking"))
@@ -99,7 +104,7 @@ public class EnemyController : MonoBehaviour
         if (shootAnimationCounter <= 0 && animator.GetBool("isAttacking"))
         {
             animator.SetBool("isAttacking", false);
-            shotCounter = fireCooldown;
+            //shotCounter = fireCooldown;
             animator.speed = 1;
             if (canShoot) {
                 AudioManager.instance.PlaySFX(13);
